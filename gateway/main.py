@@ -10,7 +10,13 @@ GHL_API_URL = os.getenv("GHL_API_URL", "https://rest.gohighlevel.com/v1")
 GHL_AGENCY_TOKEN = os.getenv("GHL_AGENCY_TOKEN")  # Securely set in env
 # Session/subaccount ID should come from user/session context, possibly from GHL SSO/JWT
 
-# Serve React static files
+# Serve static files (JS/CSS/images)
+@app.route('/static/<path:path>')
+def serve_static(path):
+    build_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'build')
+    return send_from_directory(os.path.join(build_dir, 'static'), path)
+
+# Serve index.html for everything else (client-side routing)
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve_react(path):
