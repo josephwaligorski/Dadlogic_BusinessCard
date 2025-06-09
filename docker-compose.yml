@@ -20,6 +20,7 @@ services:
     ports:
       - "5002:5002"
     x-health-port: 5002
+    
   urlheaderapp:
     build: ./services/urlheaderapp
     ports:

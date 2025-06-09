@@ -5,7 +5,6 @@ SERVICES = [
     {"name": "gateway", "url": "http://gateway:8080/health"},
     {"name": "documentconverter", "url": "http://documentconverter:5002/health"},
     {"name": "urlheaderapp", "url": "http://urlheaderapp:5001/health"},
-    {"name": "base64decoder", "url": "http://base64decoder:5003/health"},
     #{"name": "healthaggregator", "url": "http://healthaggregator:5004/health"}, - self-referential, not needed
 ]
 
