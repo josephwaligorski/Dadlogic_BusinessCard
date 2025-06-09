@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, send_from_directory
 import requests
 import os
 
@@ -9,6 +9,17 @@ VISION_API_URL = os.getenv("VISION_API_URL", "https://api.openai.com/v1/vision/e
 GHL_API_URL = os.getenv("GHL_API_URL", "https://rest.gohighlevel.com/v1")
 GHL_AGENCY_TOKEN = os.getenv("GHL_AGENCY_TOKEN")  # Securely set in env
 # Session/subaccount ID should come from user/session context, possibly from GHL SSO/JWT
+
+# Serve React static files
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve_react(path):
+    build_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'build')
+    if path != "" and os.path.exists(os.path.join(build_dir, path)):
+        return send_from_directory(build_dir, path)
+    else:
+        return send_from_directory(build_dir, 'index.html')
+
 
 @app.route("/api/import-business-card", methods=["POST"])
 def import_card():
