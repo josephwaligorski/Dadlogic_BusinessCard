@@ -9,7 +9,7 @@ RUN npm run build
 # Stage 2: Python Flask API + static serving
 FROM python:3.10-slim
 WORKDIR /app
-COPY gateway/requirements.txt requirements.txt
+COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 COPY gateway .
 # Copy built frontend from previous stage
