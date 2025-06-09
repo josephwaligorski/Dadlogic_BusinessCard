@@ -10,7 +10,6 @@ GHL_API_URL = os.getenv("GHL_API_URL", "https://rest.gohighlevel.com/v1")
 GHL_AGENCY_TOKEN = os.getenv("GHL_AGENCY_TOKEN")  # Securely set in env
 # Session/subaccount ID should come from user/session context, possibly from GHL SSO/JWT
 
-
 @app.route("/api/import-business-card", methods=["POST"])
 def import_card():
     files = request.files.getlist("files")
