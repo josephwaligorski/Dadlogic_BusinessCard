@@ -1,0 +1,6 @@
+Flask
+requests
+python-dotenv
+Werkzeug
+# Optionally, for production server (instead of Flask's built-in dev server)
+# gunicorn
