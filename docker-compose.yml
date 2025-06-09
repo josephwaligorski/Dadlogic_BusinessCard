@@ -1,0 +1,44 @@
+version: "3.9"
+services:
+  gateway:
+    build: ./gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - documentconverter
+      - urlheaderapp
+    environment:
+      - DOCUMENT_CONVERTER_URL=http://documentconverter:5002
+      - URL_HEADER_APP_URL=http://urlheaderapp:5001
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GHL_AGENCY_TOKEN=${GHL_AGENCY_TOKEN}
+
+  documentconverter:
+    build: ./services/documentconverter
+    ports:
+      - "5002:5002"
+    x-health-port: 5002
+  urlheaderapp:
+    build: ./services/urlheaderapp
+    ports:
+      - "5001:5001"
+    x-health-port: 5001
+
+  healthaggregator:
+    build: ./services/healthaggregator
+    expose:
+      - "5004"
+    x-health-port: 5004
+    depends_on:
+      - gateway
+      - documentconverter
+      - urlheaderapp
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARED_TOKEN}
+    environment:
+      - TUNNEL_METRICS=0.0.0.0:2000
+    depends_on:
+      - gateway
+    restart: unless-stopped
