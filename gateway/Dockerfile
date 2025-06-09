@@ -11,7 +11,7 @@ FROM python:3.10-slim
 WORKDIR /app
 COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
-COPY gateway .
+COPY gateway ./
 # Copy built frontend from previous stage
 COPY --from=frontend-build /frontend/build ./static
 CMD ["python", "main.py"]
